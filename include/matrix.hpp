@@ -4,4 +4,6 @@
 # include "Matrix.hpp"
 # include "Vector.hpp"
 
+void ex00();
+
 #endif

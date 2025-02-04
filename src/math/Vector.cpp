@@ -4,14 +4,12 @@ Vector::Vector() {
 
 }
 
-Vector::Vector(std::initializer_list<int> list) {
-    for (int value: list) {
-        std::cout << value << std::endl;
-    }
+Vector::Vector(std::initializer_list<float> list) {
+    this->vector = list;
 }
 
 int Vector::getSize() {
-    return 0;
+    return vector.size();
 }
 
 bool Vector::isSquare() {
@@ -19,11 +17,27 @@ bool Vector::isSquare() {
 }
 
 void Vector::printVector() {
-    std::cout << "print vector ..." << std::endl;
-    // std::cout << vector.front() << std::endl;
-    // std::cout << vector[0] << vector[1] << std::endl;
+    std::cout << "[" << vector[0] << ", " << vector[1] << "]" << std::endl;
 }
 
 void Vector::toVector() {
     
+}
+
+void Vector::add(Vector &v) {
+    for (int i = 0; i < this->getSize(); i++) {
+        this->vector[i] += v.vector[i];
+    }
+}
+
+void Vector::sub(Vector &v) {
+    for (int i = 0; i < this->getSize(); i++) {
+        this->vector[i] -= v.vector[i];
+    }
+}
+
+void Vector::scl(float n) {
+    for (int i = 0; i < this->getSize(); i++) {
+        this->vector[i] *= n;
+    }
 }

@@ -8,14 +8,19 @@
 class Vector {
     public:
         Vector();
-        Vector(std::initializer_list<int> list);
+        Vector(std::initializer_list<float> list);
+
         int getSize();
         bool isSquare();
         void printVector();
         void toVector();
 
+        void add(Vector &v);
+        void sub(Vector &v);
+        void scl(float n);
+
     private:
-        std::vector<int> vector;
+        std::vector<float> vector;
 };
 
 #endif
