@@ -22,31 +22,51 @@ void vec() {
     v.printVector();
 
     std::cout << std::endl;
-    std::cout << "v * 2" << std::endl;
+    std::cout << "v . 2" << std::endl;
     v.scl(2);
     v.printVector();
 }
 
-void mtr() {
+void matrix() {
     std::cout << "MATRIX" << std::endl << std::endl;
 
     Matrix a({
-        1., 2.,
-        3., 4.
+        {1., 2.},
+        {3., 4.},
     });
     Matrix b ({
-        7., 4.,
-        -2., 2.
+        {7., 4.},
+        {-2., 2.},
     });
 
     std::cout << "A: ";
     a.printMatrix();
     std::cout << "B: ";
     b.printMatrix();
+    std::cout << std::endl;
+
+    std::cout << "A + B: " << std::endl;
+    a.add(b);
+    std::cout << "A: ";
+    a.printMatrix();
+    std::cout << std::endl;
+
+    std::cout << "A - B: " << std::endl;
+    a.sub(b);
+    std::cout << "A: ";
+    a.printMatrix();
+    std::cout << std::endl;
+
+    std::cout << "A . 2: " << std::endl;
+    a.scl(2);
+    std::cout << "A: ";
+    a.printMatrix();
+    std::cout << std::endl;
+
 }
 
 void ex00() {
     std::cout << "ex 00:" << std::endl;
     // vec();
-    mtr();
+    matrix();
 }

@@ -11,7 +11,6 @@ class Vector {
         Vector(std::initializer_list<float> list);
 
         int getSize();
-        bool isSquare();
         void printVector();
         void toVector();
 

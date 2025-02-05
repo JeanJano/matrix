@@ -12,10 +12,6 @@ int Vector::getSize() {
     return vector.size();
 }
 
-bool Vector::isSquare() {
-    return false;
-}
-
 void Vector::printVector() {
     std::cout << "[" << vector[0] << ", " << vector[1] << "]" << std::endl;
 }

@@ -8,15 +8,24 @@
 class Matrix {
     public:
         Matrix();
-        Matrix(std::initializer_list<float> list);
+        Matrix(std::initializer_list<std::initializer_list<float>> list);
 
-        int getShape();
+        int *getShape();
         bool isSquare();
         void printMatrix();
         void toMatrix();
 
+        void add(Matrix &m);
+        void sub(Matrix &m);
+        void scl(float n);
+
     private:
+        bool isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
+
         std::vector<float> matrix;
+        int *shape;
+        int col;
+        int row;
 };
 
 #endif
