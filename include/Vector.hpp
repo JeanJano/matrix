@@ -18,6 +18,8 @@ class Vector {
         void sub(Vector &v);
         void scl(float n);
 
+        Vector linear_combination(std::vector<Vector&> v_list, std::vector<float> n_list);
+
     private:
         std::vector<float> vector;
 };

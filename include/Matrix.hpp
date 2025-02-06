@@ -20,7 +20,7 @@ class Matrix {
         void scl(float n);
 
     private:
-        bool isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
+        void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
 
         std::vector<float> matrix;
         int *shape;

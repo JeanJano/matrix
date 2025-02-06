@@ -6,7 +6,7 @@ Matrix::Matrix() {
 
 Matrix::Matrix(std::initializer_list<std::initializer_list<float>> list) {
 
-    if (!this->isValidMatrix(list)) return;
+    this->isValidMatrix(list);
 
     this->col = 0;
     this->row = 0;
@@ -61,8 +61,7 @@ void Matrix::toMatrix() {
 
 }
 
-//todo retourner une erreur
-bool Matrix::isValidMatrix(std::initializer_list<std::initializer_list<float>> list) {
+void Matrix::isValidMatrix(std::initializer_list<std::initializer_list<float>> list) {
     std::vector<int> col;
 
     for (const auto &innerList : list) {
@@ -76,9 +75,8 @@ bool Matrix::isValidMatrix(std::initializer_list<std::initializer_list<float>> l
 
     for (const auto &n : col) {
         if (n != firstVal)
-         std::cout << "il y a un probleme chef";
+            throw "invalid matrix";
     }
-    return true;
 }
 
 void Matrix::add(Matrix &m) {

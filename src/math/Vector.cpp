@@ -37,3 +37,9 @@ void Vector::scl(float n) {
         this->vector[i] *= n;
     }
 }
+
+//error si pas la meme taille de liste
+//scale chaque vector et les additionner
+Vector Vector::linear_combination(std::vector<Vector&> v_list, std::vector<float> n_list) {
+
+}

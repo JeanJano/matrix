@@ -3,6 +3,11 @@
 int main() {
     std::cout << "hello matrix" << std::endl;
 
-    ex00();
+    try {
+        // ex00();
+        ex01();
+    } catch (const char *e) {
+        std::cerr << "error: " << e << std::endl;
+    }
 
 }
