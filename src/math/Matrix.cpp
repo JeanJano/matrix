@@ -4,13 +4,34 @@ Matrix::Matrix() {
 
 }
 
+Matrix::Matrix(const Matrix &cpy) {
+    this->shape = new int[2];
+    this->shape[0] = cpy.shape[0];
+    this->shape[1] = cpy.shape[1];
+    this->row = this->shape[0];
+    this->col = this->shape[1];
+
+    this->matrix = cpy.matrix;
+}
+
+Matrix::Matrix(int *shape) {
+    int count = shape[0] * shape[1];
+    for (int i = 0; i < count; i++) {
+        this->matrix.push_back(0);
+    }
+
+    this->shape = new int[2];
+    this->shape[0] = this->row = shape[0];
+    this->shape[1] = this->col = shape[1];
+}
+
 Matrix::Matrix(std::initializer_list<std::initializer_list<float>> list) {
 
     this->isValidMatrix(list);
 
     this->col = 0;
     this->row = 0;
-    this->shape = (int *)malloc(2 * sizeof(int));
+    this->shape = new int[2];
 
     for (const auto &innerList : list) {
         for (const auto &n : innerList) {
@@ -27,6 +48,30 @@ Matrix::Matrix(std::initializer_list<std::initializer_list<float>> list) {
 
     this->shape[0] = this->row;
     this->shape[1] = this->col;
+}
+
+Matrix::~Matrix() {
+    if (this->shape) {
+        delete[] this->shape;
+        this->shape = nullptr;
+    }
+}
+
+Matrix& Matrix::operator=(const Matrix &cpy) {
+    if (this == &cpy)
+        return *this;
+
+    delete[] this->shape;
+
+    this->shape = new int[2];
+    this->shape[0] = cpy.shape[0];
+    this->shape[1] = cpy.shape[1];
+    this->row = this->shape[0];
+    this->col = this->shape[1];
+
+    this->matrix = cpy.matrix;
+
+    return *this;
 }
 
 int *Matrix::getShape() {
@@ -57,6 +102,11 @@ void Matrix::printMatrix() {
     }
 }
 
+void Matrix::printMatrix(std::string name) {
+    std::cout << name << ": ";
+    this->printMatrix();
+}
+
 void Matrix::toMatrix() {
 
 }
@@ -67,6 +117,7 @@ void Matrix::isValidMatrix(std::initializer_list<std::initializer_list<float>> l
     for (const auto &innerList : list) {
         int countCol = 0;
         for (const auto &n : innerList) {
+            (void)n;
             countCol++;
         }
         col.push_back(countCol);

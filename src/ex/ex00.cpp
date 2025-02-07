@@ -1,40 +1,40 @@
 #include "matrix.hpp"
 
-void vec() {
+static void vector() {
     std::cout << "VECTOR" << std::endl << std::endl;
 
     Vector v({1., 2.});
     Vector u({5., 9.});
 
     std::cout << "v: ";
-    v.printVector();
+    v.print_vector();
     std::cout << "u: ";
-    u.printVector();
+    u.print_vector();
     std::cout << std::endl;
 
     std::cout << "v + u" << std::endl;
     v.add(u);
-    v.printVector();
+    v.print_vector();
     std::cout << std::endl;
 
     std::cout << "v - u" << std::endl;
     v.sub(u);
-    v.printVector();
+    v.print_vector();
 
     std::cout << std::endl;
     std::cout << "v . 2" << std::endl;
     v.scl(2);
-    v.printVector();
+    v.print_vector();
 }
 
-void matrix() {
+static void matrix() {
     std::cout << "MATRIX" << std::endl << std::endl;
 
     Matrix a({
         {1., 2.},
         {3., 4.},
     });
-    Matrix b ({
+    Matrix b({
         {7., 4.},
         {-2., 2.},
     });
@@ -67,6 +67,6 @@ void matrix() {
 
 void ex00() {
     std::cout << "ex 00:" << std::endl;
-    // vec();
+    vector();
     matrix();
 }
