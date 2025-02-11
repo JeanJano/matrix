@@ -4,8 +4,9 @@ int main() {
     std::cout << "hello matrix" << std::endl;
 
     try {
-        ex00();
+        // ex00();
         // ex01();
+        ex02();
     } catch (const char *e) {
         std::cerr << "error: " << e << std::endl;
     }
