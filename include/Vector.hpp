@@ -24,6 +24,7 @@ class Vector {
         void add(Vector &v);
         void sub(Vector &v);
         void scl(float n);
+        float dot(Vector& v);
 
     private:
         std::vector<float> vector;

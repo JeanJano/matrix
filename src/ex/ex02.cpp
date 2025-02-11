@@ -29,6 +29,7 @@ static void matrix() {
 }
 
 void ex02() {
+    std::cout << "LERP" << std::endl;
     nb();
     vector();
     matrix();

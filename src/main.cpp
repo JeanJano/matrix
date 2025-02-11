@@ -6,7 +6,8 @@ int main() {
     try {
         // ex00();
         // ex01();
-        ex02();
+        // ex02();
+        ex03();
     } catch (const char *e) {
         std::cerr << "error: " << e << std::endl;
     }

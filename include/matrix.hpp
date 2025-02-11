@@ -17,5 +17,6 @@ Matrix lerp(Matrix a, Matrix b, float t);
 void ex00();
 void ex01();
 void ex02();
+void ex03();
 
 #endif

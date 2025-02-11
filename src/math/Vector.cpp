@@ -27,6 +27,7 @@ Vector& Vector::operator=(const Vector& cpy) {
         return *this;
 
     this->vector = cpy.vector;
+    return *this;
 }
 
 int Vector::getSize() {
@@ -72,4 +73,14 @@ void Vector::scl(float n) {
     for (int i = 0; i < this->getSize(); i++) {
         this->vector[i] *= n;
     }
+}
+
+float Vector::dot(Vector &v) {
+    if (this->getSize() != v.getSize()) 
+        throw "Vector dot. not same size";
+    float res = 0;
+    for (int i = 0; i < this->getSize(); i++) {
+        res += this->vector[i] * v.vector[i];
+    }
+    return res;
 }
