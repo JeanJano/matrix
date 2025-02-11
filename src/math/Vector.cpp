@@ -84,3 +84,28 @@ float Vector::dot(Vector &v) {
     }
     return res;
 }
+
+
+float Vector::norm() {
+    float res = 0;
+    for (const auto& element : this->vector) {
+        res += element * element;
+    }
+    return std::sqrt(res);
+}
+
+float Vector::norm_1() {
+    float res = 0;
+    for (const auto& element : this->vector) {
+        res += std::abs(element);
+    }
+    return res;
+}
+
+float Vector::norm_inf() {
+    float res = 0;
+    for (const auto& element : this->vector) {
+        res = std::max(std::abs(element), res);
+    }
+    return res;
+}

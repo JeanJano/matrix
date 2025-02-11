@@ -5,6 +5,8 @@
 # include <vector>
 # include <initializer_list>
 # include <string>
+# include <cmath>
+# include <algorithm>
 
 class Vector {
     public:
@@ -25,6 +27,10 @@ class Vector {
         void sub(Vector &v);
         void scl(float n);
         float dot(Vector& v);
+
+        float norm();
+        float norm_1();
+        float norm_inf();
 
     private:
         std::vector<float> vector;
