@@ -65,6 +65,14 @@ bool Vector::isZero() {
     return true;
 }
 
+std::vector<float> Vector::getVector() {
+    return this->vector;
+}
+
+void Vector::setValByIndex(float val, int index) {
+    this->vector[index] = val;
+}
+
 void Vector::add(Vector &v) {
     for (int i = 0; i < this->getSize(); i++) {
         this->vector[i] += v.vector[i];

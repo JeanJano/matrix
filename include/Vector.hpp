@@ -33,6 +33,9 @@ class Vector {
         float norm_1();
         float norm_inf();
 
+        std::vector<float> getVector();
+        void setValByIndex(float val, int index);
+
     private:
         std::vector<float> vector;
 };

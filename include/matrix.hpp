@@ -16,11 +16,14 @@ Matrix lerp(Matrix a, Matrix b, float t);
 
 float angle_cos(Vector &u, Vector &v);
 
+Vector cross_product(Vector &u, Vector &v);
+
 void ex00();
 void ex01();
 void ex02();
 void ex03();
 void ex04();
 void ex05();
+void ex06();
 
 #endif
