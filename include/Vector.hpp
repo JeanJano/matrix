@@ -22,6 +22,7 @@ class Vector {
         void print_vector();
         void print_vector(std::string name);
         void toVector();
+        bool isZero();
 
         void add(Vector &v);
         void sub(Vector &v);

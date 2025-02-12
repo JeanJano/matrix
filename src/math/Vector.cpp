@@ -57,6 +57,14 @@ void Vector::toVector() {
     
 }
 
+bool Vector::isZero() {
+    for (const auto& element : this->vector) {
+        if (element != 0)
+            return false;
+    }
+    return true;
+}
+
 void Vector::add(Vector &v) {
     for (int i = 0; i < this->getSize(); i++) {
         this->vector[i] += v.vector[i];
@@ -78,34 +86,34 @@ void Vector::scl(float n) {
 float Vector::dot(Vector &v) {
     if (this->getSize() != v.getSize()) 
         throw "Vector dot. not same size";
-    float res = 0;
+    float dot = 0;
     for (int i = 0; i < this->getSize(); i++) {
-        res += this->vector[i] * v.vector[i];
+        dot += this->vector[i] * v.vector[i];
     }
-    return res;
+    return dot;
 }
 
 
 float Vector::norm() {
-    float res = 0;
+    float norm = 0;
     for (const auto& element : this->vector) {
-        res += element * element;
+        norm += element * element;
     }
-    return std::sqrt(res);
+    return std::sqrt(norm);
 }
 
 float Vector::norm_1() {
-    float res = 0;
+    float norm = 0;
     for (const auto& element : this->vector) {
-        res += std::abs(element);
+        norm += std::abs(element);
     }
-    return res;
+    return norm;
 }
 
 float Vector::norm_inf() {
-    float res = 0;
+    float norm = 0;
     for (const auto& element : this->vector) {
-        res = std::max(std::abs(element), res);
+        norm = std::max(std::abs(element), norm);
     }
-    return res;
+    return norm;
 }
