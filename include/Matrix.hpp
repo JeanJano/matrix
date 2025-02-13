@@ -4,6 +4,7 @@
 # include <iostream>
 # include <vector>
 # include <initializer_list>
+# include "Vector.hpp"
 
 class Matrix {
     public:
@@ -24,6 +25,9 @@ class Matrix {
         void add(Matrix &m);
         void sub(Matrix &m);
         void scl(float n);
+
+        Vector mul_vec(Vector &v);
+        Matrix mul_mat(Matrix &m);
 
     private:
         void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);

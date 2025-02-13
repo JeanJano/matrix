@@ -147,3 +147,22 @@ void Matrix::scl(float n) {
         this->matrix[i] *= n;
     }
 }
+
+Vector Matrix::mul_vec(Vector &v) {
+    if (this->col != v.getSize())
+        throw "Matrix. mul_vec. matrix col different of vector size";
+
+    Vector vec(v.getSize());
+
+    for (int i = 0; i < v.getSize(); i++) {
+        // vec.setValByIndex(, i);
+        // Vector u(this->row);
+        for (int j = 0; j < this->row; j++) {
+            // u.setValByIndex(this->matrix[])
+        }
+
+    }
+
+
+    return vec;
+}
