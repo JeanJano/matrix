@@ -11,6 +11,7 @@ class Matrix {
         Matrix();
         Matrix(const Matrix &cpy);
         Matrix(int *shape);
+        Matrix(int row, int col);
         Matrix(std::initializer_list<std::initializer_list<float>> list);
         ~Matrix();
 

@@ -73,6 +73,10 @@ void Vector::setValByIndex(float val, int index) {
     this->vector[index] = val;
 }
 
+void Vector::pushVal(float val) {
+    this->vector.push_back(val);
+}
+
 void Vector::add(Vector &v) {
     for (int i = 0; i < this->getSize(); i++) {
         this->vector[i] += v.vector[i];

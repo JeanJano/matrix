@@ -35,6 +35,7 @@ class Vector {
 
         std::vector<float> getVector();
         void setValByIndex(float val, int index);
+        void pushVal(float val);
 
     private:
         std::vector<float> vector;

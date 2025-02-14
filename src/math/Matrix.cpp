@@ -25,6 +25,12 @@ Matrix::Matrix(int *shape) {
     this->shape[1] = this->col = shape[1];
 }
 
+Matrix::Matrix(int row, int col) {
+    this->shape = new int[2];
+    this->shape[0] = this->row = row;
+    this->shape[1] = this->col = col;
+}
+
 Matrix::Matrix(std::initializer_list<std::initializer_list<float>> list) {
 
     this->isValidMatrix(list);
@@ -152,17 +158,39 @@ Vector Matrix::mul_vec(Vector &v) {
     if (this->col != v.getSize())
         throw "Matrix. mul_vec. matrix col different of vector size";
 
-    Vector vec(v.getSize());
+    Vector vec(0);
+    float vec_val = 0;
+    int j = 0;
 
-    for (int i = 0; i < v.getSize(); i++) {
-        // vec.setValByIndex(, i);
-        // Vector u(this->row);
-        for (int j = 0; j < this->row; j++) {
-            // u.setValByIndex(this->matrix[])
+    for (std::vector<float>::size_type i = 0; i < this->matrix.size(); i++) {
+        vec_val += this->matrix[i] * v.getVector()[j];
+        j++;
+        if (j == this->col) {
+            vec.pushVal(vec_val);
+            vec_val = 0;
+            j = 0;
         }
-
     }
 
-
     return vec;
+}
+
+Matrix Matrix::mul_mat(Matrix &m) {
+    if (this->row != m.col)
+        throw "Matrix. mul_mat. matrix row different of matrix2 col";
+
+    Matrix mat(this->row, m.col);
+    mat.matrix.resize(this->row * m.col, 0);
+
+    for (int i = 0; i < this->row; i++) {
+        for (int j = 0; j < m.col; j++) {
+            float sum = 0;
+            for (int k = 0; k < this->col; k++) {
+                sum += this->matrix[i * this->col + k] * m.matrix[k * m.col + j];
+            }
+            mat.matrix[i * m.col + j] = sum;
+        }
+    }
+
+    return mat;
 }
