@@ -85,7 +85,7 @@ int *Matrix::getShape() {
 }
 
 bool Matrix::isSquare() {
-    return false;
+    return (this->col == this->row);
 }
 
 void Matrix::printMatrix() {
@@ -193,4 +193,17 @@ Matrix Matrix::mul_mat(Matrix &m) {
     }
 
     return mat;
+}
+
+float Matrix::trace() {
+    if (!this->isSquare())
+        throw "Matrix. trace. matrix is not square";
+
+    float trace = 0;
+
+    for (std::vector<float>::size_type i = 0; i < this->matrix.size(); i += this->col + 1) {
+        trace += this->matrix[i];
+    }
+
+    return trace;
 }

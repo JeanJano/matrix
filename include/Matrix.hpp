@@ -30,6 +30,8 @@ class Matrix {
         Vector mul_vec(Vector &v);
         Matrix mul_mat(Matrix &m);
 
+        float trace();
+
     private:
         void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
 
