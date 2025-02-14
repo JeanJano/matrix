@@ -31,6 +31,7 @@ class Matrix {
         Matrix mul_mat(Matrix &m);
 
         float trace();
+        Matrix transpose();
 
     private:
         void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);

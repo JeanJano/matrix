@@ -207,3 +207,11 @@ float Matrix::trace() {
 
     return trace;
 }
+
+Matrix Matrix::transpose() {
+    Matrix tr(this->col, this->row);
+
+    
+
+    return tr;
+}
