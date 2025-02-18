@@ -25,10 +25,17 @@ Matrix::Matrix(int *shape) {
     this->shape[1] = this->col = shape[1];
 }
 
-Matrix::Matrix(int row, int col) {
+Matrix::Matrix(int row, int col, bool init) {
     this->shape = new int[2];
     this->shape[0] = this->row = row;
     this->shape[1] = this->col = col;
+
+    if (!init)
+        return;
+    int count = shape[0] * shape[1];
+    for (int i = 0; i < count; i++) {
+        this->matrix.push_back(0);
+    }
 }
 
 Matrix::Matrix(std::initializer_list<std::initializer_list<float>> list) {
@@ -117,6 +124,10 @@ void Matrix::toMatrix() {
 
 }
 
+float &Matrix::at(int i, int j) {
+    return this->matrix[i * this->col + j];
+}
+
 void Matrix::isValidMatrix(std::initializer_list<std::initializer_list<float>> list) {
     std::vector<int> col;
 
@@ -179,7 +190,7 @@ Matrix Matrix::mul_mat(Matrix &m) {
     if (this->row != m.col)
         throw "Matrix. mul_mat. matrix row different of matrix2 col";
 
-    Matrix mat(this->row, m.col);
+    Matrix mat(this->row, m.col, false);
     mat.matrix.resize(this->row * m.col, 0);
 
     for (int i = 0; i < this->row; i++) {
@@ -209,9 +220,72 @@ float Matrix::trace() {
 }
 
 Matrix Matrix::transpose() {
-    Matrix tr(this->col, this->row);
+    Matrix tr(this->col, this->row, true);
 
-    
+    for (int i = 0; i < this->row; i++) {
+        for (int j = 0; j < this->col; j++) {
+            tr.matrix[j * this->row + i] = this->matrix[i * this->col + j];
+        }
+    }
 
     return tr;
+}
+
+Matrix Matrix::row_echelon() {
+    Matrix r_echl(*this);
+    int i = 0;
+    int j = 0;
+    int n = this->row;
+    int m = this->col;
+
+    while (i < n && j < m) {
+        // Chercher un pivot (élément non nul dans la colonne j)
+        if (r_echl.at(i, j) == 0) {
+            // Chercher une ligne en dessous avec un pivot non nul
+            int k = i + 1;
+            while (k < n && r_echl.at(k, j) == 0) {
+                ++k;
+            }
+            if (k < n) {
+                // Échanger les lignes i et k
+                for (int col = 0; col < m; ++col) {
+                    std::swap(r_echl.at(i, col), r_echl.at(k, col));
+                }
+            } else {
+                // Si aucun pivot non nul n'est trouvé, on passe à la colonne suivante
+                ++j;
+                continue;
+            }
+        }
+
+        // 2. Normaliser la ligne i (diviser par le pivot)
+        float pivot = r_echl.at(i, j);
+        for (int col = 0; col < m; ++col) {
+            r_echl.at(i, col) /= pivot;
+        }
+
+        // 3. Éliminer les éléments sous le pivot (i, j)
+        for (int k = i + 1; k < n; ++k) {
+            float factor = r_echl.at(k, j);
+            for (int col = 0; col < m; ++col) {
+                r_echl.at(k, col) -= factor * r_echl.at(i, col);
+            }
+        }
+
+        // Passer à la ligne suivante et à la colonne suivante
+        ++i;
+        ++j;
+    }
+
+    // 4. Éliminer les éléments au-dessus des pivots (du bas vers le haut)
+    for (int i = n - 1; i >= 0; --i) {
+        for (int j = i - 1; j >= 0; --j) {
+            float factor = r_echl.at(j, i);
+            for (int col = 0; col < m; ++col) {
+                r_echl.at(j, col) -= factor * r_echl.at(i, col);
+            }
+        }
+    }
+
+    return r_echl;
 }

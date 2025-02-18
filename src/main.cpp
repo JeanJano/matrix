@@ -13,7 +13,8 @@ int main() {
         // ex06();
         // ex07();
         // ex08();
-        ex09();
+        // ex09();
+        ex10();
 
     } catch (const char *e) {
         std::cerr << "error: " << e << std::endl;

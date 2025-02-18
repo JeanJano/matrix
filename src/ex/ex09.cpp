@@ -12,4 +12,14 @@ void ex09() {
         Matrix mt = m.transpose();
         mt.printMatrix();
     }
+    {
+        Matrix m({
+            {1, 2, 3},
+            {4, 5, 6}, 
+            {7, 8, 9}
+        });
+        m.printMatrix("M");
+        Matrix mt = m.transpose();
+        mt.printMatrix();
+    }
 }

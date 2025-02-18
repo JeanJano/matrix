@@ -11,7 +11,7 @@ class Matrix {
         Matrix();
         Matrix(const Matrix &cpy);
         Matrix(int *shape);
-        Matrix(int row, int col);
+        Matrix(int row, int col, bool init);
         Matrix(std::initializer_list<std::initializer_list<float>> list);
         ~Matrix();
 
@@ -22,6 +22,7 @@ class Matrix {
         void printMatrix();
         void printMatrix(std::string name);
         void toMatrix();
+        float &at(int i, int j);
 
         void add(Matrix &m);
         void sub(Matrix &m);
@@ -32,6 +33,7 @@ class Matrix {
 
         float trace();
         Matrix transpose();
+        Matrix row_echelon();
 
     private:
         void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
