@@ -231,61 +231,84 @@ Matrix Matrix::transpose() {
     return tr;
 }
 
+
+// utilite:
+// - Résolution de systèmes d'équations linéaires
+// - Calcul du rang d'une matrice
+// - Calcul de l’inverse d’une matrice
+// resume des etapes:
+// 1 Pivoting → Trouver la meilleure ligne et l'échanger avec la ligne actuelle.
+// 2 Normalisation → Transformer le pivot en 1.
+// 3 Élimination sous le pivot → Mettre des 0 sous le pivot.
+// 4 Réduction finale → Mettre des 0 au-dessus des pivots pour obtenir la forme échelonnée réduite.
 Matrix Matrix::row_echelon() {
     Matrix r_echl(*this);
-    int i = 0;
-    int j = 0;
     int n = this->row;
     int m = this->col;
 
-    while (i < n && j < m) {
-        // Chercher un pivot (élément non nul dans la colonne j)
-        if (r_echl.at(i, j) == 0) {
-            // Chercher une ligne en dessous avec un pivot non nul
-            int k = i + 1;
-            while (k < n && r_echl.at(k, j) == 0) {
-                ++k;
-            }
-            if (k < n) {
-                // Échanger les lignes i et k
-                for (int col = 0; col < m; ++col) {
-                    std::swap(r_echl.at(i, col), r_echl.at(k, col));
-                }
-            } else {
-                // Si aucun pivot non nul n'est trouvé, on passe à la colonne suivante
-                ++j;
-                continue;
+    int lead = 0;  // Indice de la colonne pivot
+    for (int r = 0; r < n; ++r) {
+        if (lead >= m)
+            break;
+
+        // Trouver la meilleure ligne pivot (valeur absolue max dans la colonne)
+        int bestRow = r;
+        for (int i = r + 1; i < n; ++i) {
+            if (std::fabs(r_echl.matrix[i * m + lead]) > std::fabs(r_echl.matrix[bestRow * m + lead])) {
+                bestRow = i;
             }
         }
 
-        // 2. Normaliser la ligne i (diviser par le pivot)
-        float pivot = r_echl.at(i, j);
-        for (int col = 0; col < m; ++col) {
-            r_echl.at(i, col) /= pivot;
-        }
-
-        // 3. Éliminer les éléments sous le pivot (i, j)
-        for (int k = i + 1; k < n; ++k) {
-            float factor = r_echl.at(k, j);
+        // Échanger les lignes si nécessaire
+        if (bestRow != r) {
             for (int col = 0; col < m; ++col) {
-                r_echl.at(k, col) -= factor * r_echl.at(i, col);
+                std::swap(r_echl.matrix[r * m + col], r_echl.matrix[bestRow * m + col]);
             }
         }
 
-        // Passer à la ligne suivante et à la colonne suivante
-        ++i;
-        ++j;
+        // Vérifier que le pivot n'est pas nul
+        float pivot = r_echl.matrix[r * m + lead];
+        if (std::fabs(pivot) < 1e-6) { // Tolérance pour éviter les divisions par 0
+            ++lead;
+            --r;
+            continue;
+        }
+
+        // Normaliser la ligne actuelle (diviser par le pivot)
+        for (int col = 0; col < m; ++col) {
+            r_echl.matrix[r * m + col] /= pivot;
+        }
+
+        // Éliminer les éléments sous le pivot
+        for (int k = r + 1; k < n; ++k) {
+            float factor = r_echl.matrix[k * m + lead];
+            for (int col = 0; col < m; ++col) {
+                r_echl.matrix[k * m + col] -= factor * r_echl.matrix[r * m + col];
+            }
+        }
+
+        ++lead;
     }
 
-    // 4. Éliminer les éléments au-dessus des pivots (du bas vers le haut)
-    for (int i = n - 1; i >= 0; --i) {
-        for (int j = i - 1; j >= 0; --j) {
-            float factor = r_echl.at(j, i);
+    // **Réduction de Gauss-Jordan (élimination des éléments au-dessus des pivots)**
+    for (int r = n - 1; r >= 0; --r) {
+        int pivotCol = -1;
+        for (int col = 0; col < m; ++col) {
+            if (std::fabs(r_echl.matrix[r * m + col] - 1.0) < 1e-6) {
+                pivotCol = col;
+                break;
+            }
+        }
+        if (pivotCol == -1) continue;
+
+        for (int i = 0; i < r; ++i) {
+            float factor = r_echl.matrix[i * m + pivotCol];
             for (int col = 0; col < m; ++col) {
-                r_echl.at(j, col) -= factor * r_echl.at(i, col);
+                r_echl.matrix[i * m + col] -= factor * r_echl.matrix[r * m + col];
             }
         }
     }
 
     return r_echl;
 }
+
