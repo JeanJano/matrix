@@ -364,50 +364,38 @@ Matrix Matrix::inverse() {
     }
 
     int n = row;
-    Matrix inverse(n, n, true);
-
+    Matrix augmented(n, 2 * n, true);
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-            inverse.matrix[i * n + j] = (i == j) ? 1.0 : 0.0;
+            augmented.matrix[i * 2 * n + j] = this->matrix[i * n + j];
+            augmented.matrix[i * 2 * n + (j + n)] = (i == j) ? 1.0 : 0.0;
         }
     }
-    Matrix temp(*this);
-
+    Matrix reduced = augmented.row_echelon();
+    Matrix inverse(n, n, true);
     for (int i = 0; i < n; ++i) {
-        int pivotRow = i;
-        for (int k = i + 1; k < n; ++k) {
-            if (std::fabs(temp.matrix[k * n + i]) > std::fabs(temp.matrix[pivotRow * n + i])) {
-                pivotRow = k;
-            }
-        }
-
-        if (pivotRow != i) {
-            for (int col = 0; col < n; ++col) {
-                std::swap(temp.matrix[i * n + col], temp.matrix[pivotRow * n + col]);
-                std::swap(inverse.matrix[i * n + col], inverse.matrix[pivotRow * n + col]);
-            }
-        }
-
-        float pivot = temp.matrix[i * n + i];
-        if (std::fabs(pivot) < 1e-6) {
-            throw "Matrix. inverse. pivot null.";
-        }
-
-        for (int col = 0; col < n; ++col) {
-            temp.matrix[i * n + col] /= pivot;
-            inverse.matrix[i * n + col] /= pivot;
-        }
-
-        for (int r = 0; r < n; ++r) {
-            if (r != i) {
-                float factor = temp.matrix[r * n + i];
-                for (int col = 0; col < n; ++col) {
-                    temp.matrix[r * n + col] -= factor * temp.matrix[i * n + col];
-                    inverse.matrix[r * n + col] -= factor * inverse.matrix[i * n + col];
-                }
-            }
+        for (int j = 0; j < n; ++j) {
+            inverse.matrix[i * n + j] = reduced.matrix[i * 2 * n + (j + n)];
         }
     }
 
     return inverse;
+}
+
+size_t Matrix::rank() {
+    Matrix echelonForm = this->row_echelon();
+    size_t rank = 0;
+
+    for (int i = 0; i < row; ++i) {
+        bool nonZeroRow = false;
+        for (int j = 0; j < col; ++j) {
+            if (std::fabs(echelonForm.matrix[i * col + j]) > 1e-6) {
+                nonZeroRow = true;
+                break;
+            }
+        }
+        if (nonZeroRow) ++rank;
+    }
+
+    return rank;
 }

@@ -36,6 +36,7 @@ class Matrix {
         Matrix row_echelon();
         float determinant();
         Matrix inverse();
+        size_t rank();
 
     private:
         void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
