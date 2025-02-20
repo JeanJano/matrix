@@ -312,3 +312,44 @@ Matrix Matrix::row_echelon() {
     return r_echl;
 }
 
+float Matrix::determinant() {
+    if (!this->isSquare())
+        throw "Matrix. trace. matrix is not square";
+
+    Matrix temp(*this);
+    int n = row;
+    float det = 1.0;
+    int swapCount = 0;
+
+    for (int i = 0; i < n; ++i) {
+        int pivotRow = i;
+        for (int k = i + 1; k < n; ++k) {
+            if (std::fabs(temp.matrix[k * n + i]) > std::fabs(temp.matrix[pivotRow * n + i])) {
+                pivotRow = k;
+            }
+        }
+        if (std::fabs(temp.matrix[pivotRow * n + i]) < 1e-6) {
+            return 0.0f;
+        }
+        if (pivotRow != i) {
+            for (int col = 0; col < n; ++col) {
+                std::swap(temp.matrix[i * n + col], temp.matrix[pivotRow * n + col]);
+            }
+            swapCount++;
+        }
+        for (int k = i + 1; k < n; ++k) {
+            float factor = temp.matrix[k * n + i] / temp.matrix[i * n + i];
+            for (int col = i; col < n; ++col) {
+                temp.matrix[k * n + col] -= factor * temp.matrix[i * n + col];
+            }
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        det *= temp.matrix[i * n + i];
+    }
+    if (swapCount % 2 != 0) {
+        det = -det;
+    }
+
+    return det;
+}

@@ -34,6 +34,7 @@ class Matrix {
         float trace();
         Matrix transpose();
         Matrix row_echelon();
+        float determinant();
 
     private:
         void isValidMatrix(std::initializer_list<std::initializer_list<float>> list);
