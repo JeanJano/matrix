@@ -30,5 +30,6 @@ void ex08();
 void ex09();
 void ex10();
 void ex11();
+void ex12();
 
 #endif

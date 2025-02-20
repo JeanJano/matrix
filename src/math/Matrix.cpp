@@ -314,7 +314,7 @@ Matrix Matrix::row_echelon() {
 
 float Matrix::determinant() {
     if (!this->isSquare())
-        throw "Matrix. trace. matrix is not square";
+        throw "Matrix. determinant. matrix is not square";
 
     Matrix temp(*this);
     int n = row;
@@ -329,7 +329,7 @@ float Matrix::determinant() {
             }
         }
         if (std::fabs(temp.matrix[pivotRow * n + i]) < 1e-6) {
-            return 0.0f;
+            return 0.0;
         }
         if (pivotRow != i) {
             for (int col = 0; col < n; ++col) {
@@ -352,4 +352,62 @@ float Matrix::determinant() {
     }
 
     return det;
+}
+
+Matrix Matrix::inverse() {
+    if (!this->isSquare())
+        throw "Matrix. inverse. matrix is not square";
+
+    float det = this->determinant();
+    if (std::fabs(det) < 1e-6) {
+        throw "Matrix. inverse. Determinant can not be null";
+    }
+
+    int n = row;
+    Matrix inverse(n, n, true);
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            inverse.matrix[i * n + j] = (i == j) ? 1.0 : 0.0;
+        }
+    }
+    Matrix temp(*this);
+
+    for (int i = 0; i < n; ++i) {
+        int pivotRow = i;
+        for (int k = i + 1; k < n; ++k) {
+            if (std::fabs(temp.matrix[k * n + i]) > std::fabs(temp.matrix[pivotRow * n + i])) {
+                pivotRow = k;
+            }
+        }
+
+        if (pivotRow != i) {
+            for (int col = 0; col < n; ++col) {
+                std::swap(temp.matrix[i * n + col], temp.matrix[pivotRow * n + col]);
+                std::swap(inverse.matrix[i * n + col], inverse.matrix[pivotRow * n + col]);
+            }
+        }
+
+        float pivot = temp.matrix[i * n + i];
+        if (std::fabs(pivot) < 1e-6) {
+            throw "Matrix. inverse. pivot null.";
+        }
+
+        for (int col = 0; col < n; ++col) {
+            temp.matrix[i * n + col] /= pivot;
+            inverse.matrix[i * n + col] /= pivot;
+        }
+
+        for (int r = 0; r < n; ++r) {
+            if (r != i) {
+                float factor = temp.matrix[r * n + i];
+                for (int col = 0; col < n; ++col) {
+                    temp.matrix[r * n + col] -= factor * temp.matrix[i * n + col];
+                    inverse.matrix[r * n + col] -= factor * inverse.matrix[i * n + col];
+                }
+            }
+        }
+    }
+
+    return inverse;
 }
