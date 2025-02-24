@@ -246,61 +246,48 @@ Matrix Matrix::row_echelon() {
     int n = this->row;
     int m = this->col;
 
-    int lead = 0;  // Indice de la colonne pivot
+    int lead = 0;
     for (int r = 0; r < n; ++r) {
         if (lead >= m)
             break;
-
-        // Trouver la meilleure ligne pivot (valeur absolue max dans la colonne)
         int bestRow = r;
         for (int i = r + 1; i < n; ++i) {
-            if (std::fabs(r_echl.matrix[i * m + lead]) > std::fabs(r_echl.matrix[bestRow * m + lead])) {
+            if (abs(r_echl.matrix[i * m + lead]) > abs(r_echl.matrix[bestRow * m + lead])) {
                 bestRow = i;
             }
         }
-
-        // Échanger les lignes si nécessaire
         if (bestRow != r) {
             for (int col = 0; col < m; ++col) {
-                std::swap(r_echl.matrix[r * m + col], r_echl.matrix[bestRow * m + col]);
+                swap(r_echl.matrix[r * m + col], r_echl.matrix[bestRow * m + col]);
             }
         }
-
-        // Vérifier que le pivot n'est pas nul
         float pivot = r_echl.matrix[r * m + lead];
-        if (std::fabs(pivot) < 1e-6) { // Tolérance pour éviter les divisions par 0
+        if (abs(pivot) < 1e-6) {
             ++lead;
             --r;
             continue;
         }
-
-        // Normaliser la ligne actuelle (diviser par le pivot)
         for (int col = 0; col < m; ++col) {
             r_echl.matrix[r * m + col] /= pivot;
         }
-
-        // Éliminer les éléments sous le pivot
         for (int k = r + 1; k < n; ++k) {
             float factor = r_echl.matrix[k * m + lead];
             for (int col = 0; col < m; ++col) {
                 r_echl.matrix[k * m + col] -= factor * r_echl.matrix[r * m + col];
             }
         }
-
         ++lead;
     }
 
-    // **Réduction de Gauss-Jordan (élimination des éléments au-dessus des pivots)**
     for (int r = n - 1; r >= 0; --r) {
         int pivotCol = -1;
         for (int col = 0; col < m; ++col) {
-            if (std::fabs(r_echl.matrix[r * m + col] - 1.0) < 1e-6) {
+            if (abs(static_cast<float>(r_echl.matrix[r * m + col] - 1.0)) < 1e-6) {
                 pivotCol = col;
                 break;
             }
         }
         if (pivotCol == -1) continue;
-
         for (int i = 0; i < r; ++i) {
             float factor = r_echl.matrix[i * m + pivotCol];
             for (int col = 0; col < m; ++col) {
@@ -324,16 +311,16 @@ float Matrix::determinant() {
     for (int i = 0; i < n; ++i) {
         int pivotRow = i;
         for (int k = i + 1; k < n; ++k) {
-            if (std::fabs(temp.matrix[k * n + i]) > std::fabs(temp.matrix[pivotRow * n + i])) {
+            if (abs(temp.matrix[k * n + i]) > abs(temp.matrix[pivotRow * n + i])) {
                 pivotRow = k;
             }
         }
-        if (std::fabs(temp.matrix[pivotRow * n + i]) < 1e-6) {
+        if (abs(temp.matrix[pivotRow * n + i]) < 1e-6) {
             return 0.0;
         }
         if (pivotRow != i) {
             for (int col = 0; col < n; ++col) {
-                std::swap(temp.matrix[i * n + col], temp.matrix[pivotRow * n + col]);
+                swap(temp.matrix[i * n + col], temp.matrix[pivotRow * n + col]);
             }
             swapCount++;
         }
@@ -359,7 +346,7 @@ Matrix Matrix::inverse() {
         throw "Matrix. inverse. matrix is not square";
 
     float det = this->determinant();
-    if (std::fabs(det) < 1e-6) {
+    if (abs(det) < 1e-6) {
         throw "Matrix. inverse. Determinant can not be null";
     }
 
@@ -389,7 +376,7 @@ size_t Matrix::rank() {
     for (int i = 0; i < row; ++i) {
         bool nonZeroRow = false;
         for (int j = 0; j < col; ++j) {
-            if (std::fabs(echelonForm.matrix[i * col + j]) > 1e-6) {
+            if (abs(echelonForm.matrix[i * col + j]) > 1e-6) {
                 nonZeroRow = true;
                 break;
             }

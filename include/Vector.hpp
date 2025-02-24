@@ -8,6 +8,9 @@
 # include <cmath>
 # include <algorithm>
 
+float abs(float n);
+float sqrt(float n);
+
 class Vector {
     public:
         Vector();

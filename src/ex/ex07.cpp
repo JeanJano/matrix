@@ -127,6 +127,6 @@ static void matrix_by_matrix() {
 
 void ex07() {
     std::cout << "LINEAR MAP" << std::endl;
-    // matrix_by_vector();
+    matrix_by_vector();
     matrix_by_matrix();
 }

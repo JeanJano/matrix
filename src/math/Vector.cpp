@@ -111,13 +111,13 @@ float Vector::norm() {
     for (const auto& element : this->vector) {
         norm += element * element;
     }
-    return std::sqrt(norm);
+    return sqrt(norm);
 }
 
 float Vector::norm_1() {
     float norm = 0;
     for (const auto& element : this->vector) {
-        norm += std::abs(element);
+        norm += abs(element);
     }
     return norm;
 }
@@ -125,7 +125,7 @@ float Vector::norm_1() {
 float Vector::norm_inf() {
     float norm = 0;
     for (const auto& element : this->vector) {
-        norm = std::max(std::abs(element), norm);
+        norm = std::max(abs(element), norm);
     }
     return norm;
 }

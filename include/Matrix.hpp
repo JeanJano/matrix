@@ -6,6 +6,9 @@
 # include <initializer_list>
 # include "Vector.hpp"
 
+float abs(float n);
+void swap(float &a, float &b);
+
 class Matrix {
     public:
         Matrix();
